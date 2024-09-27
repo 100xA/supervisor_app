@@ -1,4 +1,9 @@
-# supervisor_app
+- [Supervisor](#supervisor)
+- [Requirements/User Stories](#requirementsuser-stories)
+- [Stack](#stack)
+
+
+# Supervisor
 
 App built for DLBCSEMSE02_D – Projekt: Mobile Software Engineering II
 
@@ -17,3 +22,16 @@ The supervisors of final theses at IU want to improve their supervision processe
 - [ ] As a second reviewer, I want to have an overview of all the theses for which I have been registered as a second reviewer.
 
 - [ ] As a supervisor and second reviewer, I want to know for which theses I have already submitted an invoice and which invoices have been paid, to keep track of the billing.
+
+# Stack
+
+| Technology         | Description                                                                                                 |
+| ------------------ | ----------------------------------------------------------------------------------------------------------- |
+| Flutter            | UI toolkit for building natively compiled applications for mobile, web, and desktop from a single codebase. |
+| Dart               | Programming language optimized for building mobile, desktop, server, and web applications.                  |
+| Firebase           | Backend-as-a-Service (BaaS) that provides cloud storage, authentication, and real-time database services.   |
+| Provider           | State management library for managing and propagating state changes throughout the app.                     |
+| HTTP               | Package for making HTTP requests to communicate with web services and APIs.                                 |
+| Shared Preferences | Package for storing simple data in key-value pairs locally on the device.                                   |
+| Git                | Version control system for tracking changes in source code during software development.                     |
+| Visual Studio Code | Source-code editor used for developing the application.                                                     |
