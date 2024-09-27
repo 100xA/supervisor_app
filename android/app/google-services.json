@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "355864788702",
+    "project_id": "supervisor-app-iu",
+    "storage_bucket": "supervisor-app-iu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:355864788702:android:eb0c89cd22de780e2d4c4f",
+        "android_client_info": {
+          "package_name": "com.example.supervisor_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1X9ZRwa9kugHxMyq4egMIHQiNlZl8Fno"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
