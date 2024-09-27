@@ -10,22 +10,32 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Center(
+            Center(
               child: Text(
-                'Willkommen in der Betreuer-App',
-                style: TextStyle(fontSize: 24),
+                'Betreuer-App',
+                style: Theme.of(context).textTheme.displaySmall,
               ),
+            ),
+            Image.asset(
+              'assets/images/logo.png',
+              width: 400,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
                   onPressed: () {},
-                  child: const Text("Ich bin ein Betreuer"),
+                  child: Text(
+                    "Betreuer",
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: () {},
-                  child: const Text("Ich bin Student"),
+                  child: Text(
+                    "Student",
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
                 ),
               ],
             ),
