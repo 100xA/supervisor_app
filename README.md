@@ -11,7 +11,7 @@ App built for DLBCSEMSE02_D – Projekt: Mobile Software Engineering II
 
 The supervisors of final theses at IU want to improve their supervision processes with an app. To this end, they have outlined the following user stories:
 
-- [ ] As a student, I want to be able to find out which supervisor fits my topic.
+- [x] As a student, I want to be able to find out which supervisor fits my topic.
 
 - [ ] As a supervisor, I want to be able to announce topics for final theses to pursue my research interests further. 
 - [ ] As a student, I want to be able to contact a supervisor to send them my proposal and arrange for supervision.
