@@ -41,6 +41,9 @@ dependencies:
   flutter_riverpod: ^2.5.1
   riverpod_annotation: ^2.3.5
   cloud_firestore: ^5.4.3
+  mockito: ^5.4.4
+  firebase_storage: ^12.3.2
+  file_picker: ^8.1.2
 
 dev_dependencies:
   flutter_test:

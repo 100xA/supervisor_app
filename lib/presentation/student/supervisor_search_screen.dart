@@ -7,6 +7,7 @@ import 'package:supervisor_app/data/search_repo.dart';
 import 'package:supervisor_app/data/supervisor_repo.dart';
 import 'package:supervisor_app/domain/search_result.dart';
 import 'package:supervisor_app/domain/topic.dart';
+import 'package:supervisor_app/presentation/student/supervisor_contact_form.dart';
 
 final supervisorRepositoryProvider = Provider((ref) => SupervisorRepository());
 
@@ -53,14 +54,16 @@ class SupervisorSearchScreen extends ConsumerWidget {
                     const ListTile(
                         title: Text('Matches',
                             style: TextStyle(fontWeight: FontWeight.bold))),
-                    ...results.exactMatches.map(_buildTopicTile),
+                    ...results.exactMatches
+                        .map((topic) => _buildTopicTile(topic, context)),
                   ],
                   if (results.recommendations.isNotEmpty) ...[
                     const Divider(),
                     const ListTile(
                         title: Text('Recommendations',
                             style: TextStyle(fontWeight: FontWeight.bold))),
-                    ...results.recommendations.map(_buildTopicTile),
+                    ...results.recommendations
+                        .map((topic) => _buildTopicTile(topic, context)),
                   ],
                 ],
               ),
@@ -73,11 +76,23 @@ class SupervisorSearchScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildTopicTile(Topic topic) {
+  Widget _buildTopicTile(Topic topic, BuildContext context) {
     return ListTile(
       title: Text(topic.title),
       subtitle: Text(topic.description),
       isThreeLine: true,
+      trailing: ElevatedButton(
+        child: const Text('Contact'),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  ProviderScope(child: SupervisorContactForm(topic: topic)),
+            ),
+          );
+        },
+      ),
     );
   }
 }

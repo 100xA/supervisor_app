@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supervisor_app/presentation/supervisor/supervisor_search_screen.dart';
+import 'package:supervisor_app/presentation/student/supervisor_search_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
