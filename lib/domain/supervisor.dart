@@ -7,7 +7,7 @@ class Supervisor {
   final String name;
   final String email;
   final List<String> researchInterests;
-  final List<Topic> topics;
+  List<Topic> topics;
   final List<Thesis> supervisedTheses;
 
   Supervisor({
@@ -44,5 +44,23 @@ class Supervisor {
       'supervisedTheses':
           supervisedTheses.map((thesis) => thesis.toMap()).toList(),
     };
+  }
+
+  // New method to announce a topic
+  Future<void> announceTopic(Topic newTopic) async {
+    // Add the new topic to the list
+    topics.add(newTopic);
+
+    // Update the Firestore document
+    try {
+      await FirebaseFirestore.instance
+          .collection('supervisors')
+          .doc(id)
+          .update({
+        'announcedTopics': topics.map((topic) => topic.toMap()).toList(),
+      });
+    } catch (e) {
+      rethrow;
+    }
   }
 }

@@ -11,7 +11,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // sendTestData();
+  //sendTestData();
   runApp(const MyApp());
 }
 

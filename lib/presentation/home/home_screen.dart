@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supervisor_app/presentation/student/supervisor_search_screen.dart';
+import 'package:supervisor_app/presentation/supervisor/supervisor_home_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -26,7 +27,11 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ProviderScope(
+                            child: SupervisorHomeScreen())));
+                  },
                   child: Text(
                     "Betreuer",
                     style: Theme.of(context).textTheme.labelMedium,

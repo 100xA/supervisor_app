@@ -6,8 +6,9 @@ void sendTestData() async {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final Random random = Random();
 
-  List<String> studentIds = [];
-
+  // Fetch student IDs from Firestore (assuming they are already in the students collection)
+  QuerySnapshot studentSnapshot = await firestore.collection('students').get();
+  List<String> studentIds = studentSnapshot.docs.map((doc) => doc.id).toList();
   // Generate and push 10 students
   for (int i = 0; i < 10; i++) {
     DocumentReference studentRef = await firestore.collection('students').add({
@@ -36,6 +37,12 @@ void sendTestData() async {
 
     // Store student Document ID for cross-referencing
     studentIds.add(studentRef.id);
+  }
+
+  // Ensure there are enough students
+  if (studentIds.length < 10) {
+    dev.log('Not enough students in the database.');
+    return;
   }
 
   // Supervisor names and distinct announced topics
@@ -84,117 +91,19 @@ void sendTestData() async {
               'Leveraging quantum computing to speed up drug discovery and development processes.'
         }
       ]
-    },
-    {
-      'name': 'Dr. David Garcia',
-      'announcedTopics': [
-        {
-          'title': 'Sustainable Architecture for Urban Areas',
-          'description':
-              'Exploring green building technologies for sustainable urban infrastructure.'
-        },
-        {
-          'title': 'AI in Smart City Planning',
-          'description':
-              'Using artificial intelligence to optimize resource allocation in smart cities.'
-        }
-      ]
-    },
-    {
-      'name': 'Dr. Emily Zhang',
-      'announcedTopics': [
-        {
-          'title': 'IoT for Precision Agriculture',
-          'description':
-              'Utilizing IoT technologies for optimizing agricultural practices and crop monitoring.'
-        },
-        {
-          'title': 'AI in Climate Change Mitigation',
-          'description':
-              'Investigating the role of AI in tracking and mitigating climate change.'
-        }
-      ]
-    },
-    {
-      'name': 'Dr. John Carter',
-      'announcedTopics': [
-        {
-          'title': 'Machine Learning for Autonomous Vehicles',
-          'description':
-              'Developing machine learning algorithms for safe navigation in autonomous vehicles.'
-        },
-        {
-          'title': 'Cybersecurity in Automotive Networks',
-          'description':
-              'Ensuring security and privacy in connected vehicle systems.'
-        }
-      ]
-    },
-    {
-      'name': 'Dr. Olivia Miller',
-      'announcedTopics': [
-        {
-          'title': 'Data Analytics for Retail Optimization',
-          'description':
-              'Leveraging big data to optimize supply chain and customer behavior analysis in retail.'
-        },
-        {
-          'title': 'AI in E-commerce Personalization',
-          'description':
-              'Exploring the use of AI to enhance personalized shopping experiences in e-commerce.'
-        }
-      ]
-    },
-    {
-      'name': 'Dr. Robert Evans',
-      'announcedTopics': [
-        {
-          'title': 'AI for Real-time Financial Analytics',
-          'description':
-              'Using AI to provide real-time insights into financial markets and transactions.'
-        },
-        {
-          'title': 'Blockchain for Secure Voting Systems',
-          'description':
-              'Designing secure and transparent voting systems using blockchain technology.'
-        }
-      ]
-    },
-    {
-      'name': 'Dr. Sophie Turner',
-      'announcedTopics': [
-        {
-          'title': 'AI in Personalized Learning Platforms',
-          'description':
-              'Developing AI-driven systems to provide personalized learning experiences in education.'
-        },
-        {
-          'title': 'Augmented Reality for Education',
-          'description':
-              'Using AR to enhance interactive learning environments in classrooms.'
-        }
-      ]
-    },
-    {
-      'name': 'Dr. James Anderson',
-      'announcedTopics': [
-        {
-          'title': 'Cybersecurity in Cloud Computing',
-          'description':
-              'Exploring advanced security measures to protect data in cloud-based systems.'
-        },
-        {
-          'title': 'AI for Malware Detection',
-          'description':
-              'Leveraging artificial intelligence to detect and mitigate malicious software attacks.'
-        }
-      ]
     }
+
+    // Other supervisors...
   ];
+
+  // Shuffle studentIds to ensure randomness in assignment
+  studentIds.shuffle(random);
 
   // Generate and push 10 supervisors
   for (var supervisorData in supervisorsData) {
-    await firestore.collection('supervisors').add({
+    // First, add the supervisor document to Firestore
+    DocumentReference supervisorRef =
+        await firestore.collection('supervisors').add({
       'name': supervisorData['name'],
       'email': supervisorData['name'].toLowerCase().replaceAll(' ', '.') +
           '@example.com',
@@ -214,39 +123,62 @@ void sendTestData() async {
               ['description'],
         },
       ),
-      'supervisedTheses': List.generate(
-        random.nextInt(5), // Supervises 0-4 theses
-        (index) => {
-          'studentId': studentIds[random.nextInt(studentIds.length)],
-          'topic': [
-            'AI-Powered Diagnostics in Healthcare',
-            'Blockchain for Secure Supply Chains',
-            'Augmented Reality in Education',
-            'Quantum Computing for Cryptography',
-            'Sustainable Urban Development',
-            'Machine Learning for Climate Change Prediction',
-            'Ethical Implications of AI in Law',
-            'IoT for Smart Agriculture',
-            'Cybersecurity in Autonomous Vehicles',
-            'Big Data in Retail Analytics'
-          ][random.nextInt(10)],
-          'status': [
-            'in discussion',
-            'registered',
-            'submitted',
-            'colloquium held'
-          ][random.nextInt(4)],
-          'secondReviewer': 'supervisor_${random.nextInt(10)}',
-          'invoiceStatus': [
-            'not submitted',
-            'submitted',
-            'paid'
-          ][random.nextInt(3)],
-        },
-      ),
+    });
+
+    // Then, update the supervisor document with the theses
+    List<Map<String, dynamic>> supervisedTheses = [];
+
+    // Assign between 0-4 theses to this supervisor, ensuring unique student IDs
+    int numTheses = random.nextInt(5); // Between 0 and 4 theses
+
+    for (int i = 0; i < numTheses; i++) {
+      if (studentIds.isEmpty) {
+        dev.log('No more students left to assign.');
+        break;
+      }
+
+      // Remove studentId from the list to ensure uniqueness
+      String studentId = studentIds.removeLast();
+
+      supervisedTheses.add({
+        'studentId': studentId,
+        'topic': [
+          'AI-Powered Diagnostics in Healthcare',
+          'Blockchain for Secure Supply Chains',
+          'Augmented Reality in Education',
+          'Quantum Computing for Cryptography',
+          'Sustainable Urban Development',
+          'Machine Learning for Climate Change Prediction',
+          'Ethical Implications of AI in Law',
+          'IoT for Smart Agriculture',
+          'Cybersecurity in Autonomous Vehicles',
+          'Big Data in Retail Analytics'
+        ][random.nextInt(10)],
+        'status': [
+          'in discussion',
+          'registered',
+          'submitted',
+          'colloquium held'
+        ][random.nextInt(4)],
+        // Assign supervisorRef.id to firstReviewer
+        'firstReviewer': supervisorRef.id,
+        // Add empty fields for secondReviewer and secondReviewerId
+        'secondReviewer': '',
+        'secondReviewerId': '',
+        'invoiceStatus': [
+          'not submitted',
+          'submitted',
+          'paid'
+        ][random.nextInt(3)],
+      });
+    }
+
+    // Now update the supervisor document with the supervised theses
+    await supervisorRef.update({
+      'supervisedTheses': supervisedTheses,
     });
   }
 
   dev.log(
-      '10 students and 10 supervisors with unique announced topics have been added to the database.');
+      'Supervisors with unique student theses have been added to the database.');
 }
