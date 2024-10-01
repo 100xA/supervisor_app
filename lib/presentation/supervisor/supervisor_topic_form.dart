@@ -27,7 +27,6 @@ class SupervisorTopicsForm extends ConsumerWidget {
             children: [
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Supervisor Email',
                   hintText: 'Enter your email',
                   errorText: formState.emailError,
                 ),
@@ -37,7 +36,6 @@ class SupervisorTopicsForm extends ConsumerWidget {
               const SizedBox(height: 16),
               TextFormField(
                 decoration: const InputDecoration(
-                  labelText: 'Topic Title',
                   hintText: 'Enter the title of your topic',
                 ),
                 onChanged: formNotifier.setTitle,
@@ -45,7 +43,6 @@ class SupervisorTopicsForm extends ConsumerWidget {
               const SizedBox(height: 16),
               TextFormField(
                 decoration: const InputDecoration(
-                  labelText: 'Topic Description',
                   hintText: 'Describe your topic',
                 ),
                 maxLines: 5,

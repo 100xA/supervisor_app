@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supervisor_app/presentation/secreviewer/sec_reviewer_thesis_assignment_screen.dart';
+import 'package:supervisor_app/presentation/supervisor/supervisor_overview_screen.dart';
 
 import 'package:supervisor_app/presentation/supervisor/supervisor_topic_form.dart';
 
@@ -19,7 +20,7 @@ class SupervisorHomeScreen extends ConsumerWidget {
         children: const [
           ProviderScope(child: ThesisReviewerAssignmentScreen()),
           ProviderScope(child: SupervisorTopicsForm()),
-          ThesesContent(),
+          SupervisorOverviewScreen(supervisorId: "52Dh0cIJIgph9L3X8hLY")
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -32,14 +33,5 @@ class SupervisorHomeScreen extends ConsumerWidget {
         ],
       ),
     );
-  }
-}
-
-class ThesesContent extends StatelessWidget {
-  const ThesesContent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text('Theses Screen'));
   }
 }

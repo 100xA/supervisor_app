@@ -46,6 +46,12 @@ class Supervisor {
     };
   }
 
+  List<Thesis> get thesesAsSecondReviewer {
+    return supervisedTheses
+        .where((thesis) => thesis.secondReviewerId == id)
+        .toList();
+  }
+
   // New method to announce a topic
   Future<void> announceTopic(Topic newTopic) async {
     // Add the new topic to the list
