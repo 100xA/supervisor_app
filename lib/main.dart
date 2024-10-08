@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:supervisor_app/core/firebase_util.dart';
 
 import 'package:supervisor_app/firebase_options.dart';
 import 'package:supervisor_app/presentation/home/home_screen.dart';

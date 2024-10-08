@@ -27,13 +27,13 @@ class SupervisorRepository {
   }
 }
 
-final supervisorProvider =
-    StreamProvider.autoDispose.family<Supervisor, String>((ref, supervisorId) {
-  return FirebaseFirestore.instance
+final supervisorProvider = FutureProvider.autoDispose
+    .family<Supervisor, String>((ref, supervisorId) async {
+  final snapshot = await FirebaseFirestore.instance
       .collection('supervisors')
       .doc(supervisorId)
-      .snapshots()
-      .map((snapshot) => Supervisor.fromFirestore(snapshot));
+      .get();
+  return Supervisor.fromFirestore(snapshot);
 });
 
 // Helper provider to get thesis status counts for supervised theses

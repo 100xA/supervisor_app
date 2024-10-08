@@ -69,4 +69,19 @@ class Supervisor {
       rethrow;
     }
   }
+
+  Future<void> changeThesisStatus(String topic, String newStatus) async {
+    final thesisIndex = supervisedTheses.indexWhere((t) => t.topic == topic);
+    if (thesisIndex != -1) {
+      supervisedTheses[thesisIndex] =
+          supervisedTheses[thesisIndex].copyWith(status: newStatus);
+
+      await FirebaseFirestore.instance
+          .collection('supervisors')
+          .doc(id)
+          .update({
+        'supervisedTheses': supervisedTheses.map((t) => t.toMap()).toList(),
+      });
+    }
+  }
 }

@@ -35,6 +35,7 @@ class SupervisorOverviewScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 _buildThesisSection(
+                  ref,
                   context,
                   'Supervised Theses',
                   supervisor.supervisedTheses,
@@ -42,6 +43,7 @@ class SupervisorOverviewScreen extends ConsumerWidget {
                 ),
                 const Divider(height: 32, thickness: 2),
                 _buildThesisSection(
+                  ref,
                   context,
                   'Second Reviewer Theses',
                   supervisor.thesesAsSecondReviewer,
@@ -55,11 +57,12 @@ class SupervisorOverviewScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildThesisSection(BuildContext context, String title,
+  Widget _buildThesisSection(WidgetRef ref, BuildContext context, String title,
       List<Thesis> theses, Map<String, int> statusCounts) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: 16),
         Text(
           title,
         ),
@@ -80,11 +83,43 @@ class SupervisorOverviewScreen extends ConsumerWidget {
           itemCount: theses.length,
           itemBuilder: (context, index) {
             final thesis = theses[index];
+            final List<String> statusOptions = [
+              "written out",
+              "started",
+              "handed in",
+              "invoiced",
+              "paid",
+            ];
+            if (thesis.status.isNotEmpty &&
+                !statusOptions.contains(thesis.status)) {
+              statusOptions.add(thesis.status);
+            }
+
             return ListTile(
               title: Text(thesis.topic,
                   style: Theme.of(context).textTheme.bodyMedium),
               subtitle: Text('Status: ${_formatStatus(thesis.status)}'),
-              trailing: Text(thesis.studentId),
+              trailing: DropdownButton<String>(
+                value: thesis.status,
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    ref
+                        .read(supervisorProvider(thesis.firstReviewer))
+                        .whenData((supervisor) {
+                      supervisor.changeThesisStatus(thesis.topic, newValue);
+                    });
+
+                    ref.refresh(supervisorProvider(supervisorId));
+                  }
+                },
+                items:
+                    statusOptions.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(_formatStatus(value)),
+                  );
+                }).toList(),
+              ),
             );
           },
         ),

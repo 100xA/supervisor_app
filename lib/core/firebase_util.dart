@@ -27,10 +27,11 @@ void sendTestData() async {
         'Big Data in Retail Analytics'
       ][i],
       'thesisStatus': [
-        'in discussion',
-        'registered',
-        'submitted',
-        'colloquium held'
+        "written out",
+        "started",
+        "handed in",
+        "invoiced",
+        "paid",
       ][random.nextInt(4)],
       'proposalSubmissionDate': Timestamp.now(),
     });
